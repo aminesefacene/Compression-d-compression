@@ -1,0 +1,36 @@
+Compression-Décompression
+
+Codage de Huffman
+
+Programmation réseaux et programmation concurrente
+
+1. Introduction:
+
+Le projet consiste en la mise en place d’une application Client/serveur qui permet aux clients de télécharger des
+fichiers présents dans le serveur grâce au protocole TCP/IP. Ainsi, un client choisi un fichier parmi plusieurs proposé
+par le serveur. Le serveur compresse le fichier et le lui envoie ainsi que la table de codage. Le client peut ainsi
+décompresser le contenu envoyé et lire les données.
+
+2. Déroulement du processus :
+
+Au lancement du projet, deux interfaces apparaissent : celle du client et celle du serveur multi-threads. Pour
+qu’un client puisse se connecter au serveur, il faut que ce dernier soit connecté et prêt à l’écoute. Pour cela, il
+suffit d’appuyer sur le bouton Connexion de l’interface Serveur multi-threads. Cela lancera le serveur de la classe
+ServiceMT (Dans notre cas, le serveur se connectera sur le port 500). Ce dernier sera à l’écoute des messages qui
+peuvent lui arriver.
+Le client peut à présent se connecter au serveur en appuyant sur le bouton Connexion de son interface
+(Connexion au serveur du port 500). Une fois fait, Il pourra choisir sur la liste défilante du ComboBox le fichier
+qu’il souhaite et appuyer sur Télécharger. En actionnant ce bouton, le système envoie un message au serveur
+avec le protocole TCP/IP et en utilisant OutPutStream et PrintWriter.
+A chaque fois qu’un serveur reçoit une demande d’un fichier, il parcourt la liste de ses fichiers pour identifier
+ce fichier. Par la suite, il lit le fichier avec BufferedReader et met son contenu dans une chaine de caractère. Il
+construit les occurrences qui existent sur l’ensemble de la chaine de caractère, construit l’arbre de Huffman en
+créant des nœuds entre chaque deux feuilles jusqu’à ce qu’il reste qu’un seul nœud puis encode les données.
+Ceci fait, Il envoie alors les données avec un sous casting vers un objet grâce à ObjectOutputStream. Il envoie de
+la même manière la table de codage de type Element qui représente l’arbre construit.
+A la réception des deux messages, le client vérifie l’instance du message puisque les deux sont envoyés en
+tant qu’objet. Un compteur est initialisé à 0 à chaque réception de messages. Le client vérifie si l’instance du
+message est de type String et l’affecte à une variable préalablement déclaré avec un sous casting vers String et
+incrémente le compteur. Il fait de même si le message est de type Element avec un sous casting vers Element. Si
+le compteur est égal à 2, cela voudra dire que le client a reçu le code et l’arbre pour le décodage. Il enclenche
+ainsi le processus de décodage en faisant appel à la fonction decoder () et affiche le message décodé.
